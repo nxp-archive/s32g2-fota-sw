@@ -1,0 +1,49 @@
+From 726df1208ba9fe7e14c895a6fb9d0f5bd4ee31d9 Mon Sep 17 00:00:00 2001
+From: Ryder Gong <nxf50888@lsv11298.swis.cn-sha01.nxp.com>
+Date: Tue, 27 Apr 2021 09:57:26 +0800
+Subject: [PATCH] dts for ipcf and disable qspi
+
+---
+ .../boot/dts/freescale/fsl-s32g274a-rdb.dtsi  | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/fsl-s32g274a-rdb.dtsi b/arch/arm64/boot/dts/freescale/fsl-s32g274a-rdb.dtsi
+index f9bce4923f81..4c66e1fe2e48 100644
+--- a/arch/arm64/boot/dts/freescale/fsl-s32g274a-rdb.dtsi
++++ b/arch/arm64/boot/dts/freescale/fsl-s32g274a-rdb.dtsi
+@@ -18,6 +18,23 @@
+ 		compatible = "usb-nop-xceiv";
+ 		#phy-cells = <0>;
+ 	};
++
++	ipc {
++		compatible = "fsl,s32xx-ipc-main";
++		local-mem = <0x34600000>;
++		remote-mem = <0x34700000>;
++		shm-size = <0x100000>;
++		tx-irq = <2>;
++		rx-irq = <1>;
++		/* 0 0 marks end of one channel*/
++		channels = <128 256 128 512 64 1024 64 1536 0 0>,
++		<128 128 0 0>;
++	};
++
++	ipc-vnet@0 {
++		compatible = "fsl,s32xx-ipc-vnet";
++		reg = <0 0 0 0>;
++	};
+ };
+ 
+ &pfe {
+@@ -599,7 +616,7 @@
+ &qspi {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl0_qspi>;
+-	status = "okay";
++	status = "disabled";
+ 
+ 	mx25uw51245g@0 {
+ 		#address-cells = <1>;
+-- 
+2.25.1
+

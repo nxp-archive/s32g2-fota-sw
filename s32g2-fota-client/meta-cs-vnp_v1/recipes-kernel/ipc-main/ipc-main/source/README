@@ -1,0 +1,25 @@
+1. Add following node to DTS
+start ++++++++++++++++++++++
+	ipc {
+		compatible = "fsl,s32xx-ipc-main";
+		local-mem = <0x34600000>;
+		remote-mem = <0x34700000>;
+		shm-size = <0x100000>;
+		tx-irq = <2>;
+		rx-irq = <1>;
+		/* 0 0 marks end of one channel*/
+		channels = <128 256 128 512 64 1024 64 1536 0 0>,
+		<128 128 0 0>;
+	};
+	ipc-vnet@0 {
+		compatible = "fsl,s32xx-ipc-vnet";
+		reg = <0 0 0 0>;
+	};
+end +++++++++++++++++++++++++++
+
+2. In linux shell:
+  2.1 insmod ipc-shm-dev.ko
+  2.2 insmod ipc-main.ko
+  2.3 insmod ipc_vnet.ko
+  2.4 ifconfig ipc0 192.168.0.X
+  2.5 ping 192.168.0.200

@@ -1,0 +1,105 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+
+{{extend 'layout.html'}}
+
+
+{{block header}}
+    <header class="container-fluid background">
+      <div class="jumbotron text-center">
+        {{if response.title:}}
+        <h1>{{=response.title}}
+          <small>{{=response.subtitle or ''}}</small></h1>
+        {{pass}}
+      </div>
+    </header>
+{{end}}
+
+{{if 'vehicle_vin' in globals():}}
+<h1>Current Vehicle: {{=vehicle_vin}}</h1>
+{{else:}}
+{{pass}}
+
+{{if 'ecu_list' in globals():}}
+<h2>{{=ecu_list}}</h2>
+{{else:}}
+{{pass}}
+
+{{if 'ecu_id_list' in globals():}}
+<h2>{{for ecu in ecu_id_list:}}
+
+    <script>
+        console.log(" hello! " + {{=ecu}});
+        jQuery('input[type=checkbox]').each(function(){
+            console.log( 'val: ' + jQuery(this).val());
+            if(jQuery(this).val() == {{=ecu}}){
+                jQuery(this).attr('checked', 'checked');
+            }
+        });
+    </script>
+
+    {{pass}}</h2>
+{{else:}}
+{{pass}}
+
+<!--
+<button onclick="jQuery('input[type=checkbox]').each(function(k){jQuery(this).attr('checked', 'checked');});">select all</button>
+<button onclick="jQuery('input[type=checkbox]').each(function(){
+    if(jQuery(this).val() == '6')jQuery(this).attr('checked', 'checked');});">select #6</button>
+-->
+
+<!-- Iterate through td = id # from ecu_id_List
+        Then add checked="checked" to 'input name' tag (found this via debugging HTML via Firefox tools
+
+    jQuery(document).ready(function(){
+    console.log(" ready! ");
+    jQuery('input[type=checkbox]').each(function(k){jQuery(this).attr('checked', 'checked');});
+
+
+    <!-- The code below works at selecting an item with a value (i.e., id) == '6'
+    var id2 = '6';
+    jQuery('input[type=checkbox]').each(function(id2){
+    console.log(" ID " + id2);
+
+    if(jQuery(this).val() == '6')jQuery(this).attr('checked', 'checked');});
+    });
+
+    });
+        -->
+
+<!--<script>
+    jQuery(document).ready(function(){
+        console.log(" ready! ");
+        console.log(" ecu's " + {{=ecu_id_list}});
+        jQuery('input[type=checkbox]').each(function(){
+
+        console.log( 'val: ' + jQuery(this).val());
+        if(jQuery(this).val() == '6'){
+        jQuery(this).attr('checked', 'checked');
+        }
+        });
+   });
+</script>-->
+
+
+
+
+
+<!-- TODO - Delete this if the code above works!
+<script>
+    function extraFunc(id){
+        console.log(" ID " + id);
+        if(jQuery(this).val() == '6')jQuery(this).attr('checked', 'checked');});
+    }
+
+</script>
+-->
+
+
+<!--<script>
+    function2(){
+    console.log(" ECU ID LIST ");
+    console.log({{ecu_id_list}});
+    console.log(" AFTER ");
+    };
+</script>
+-->

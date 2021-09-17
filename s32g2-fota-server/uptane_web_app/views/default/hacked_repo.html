@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+
+{{block header}}
+    <header class="container-fluid ">
+      <div class="jumbotron text-center">
+        <h1>HACKED Image Repository</h1>
+        {{pass}}
+      </div>
+    </header>
+{{end}}
+
+<body class="hack_body">
+
+
+
+<div style="background:WHITE">
+    {{if 'form' in globals():}}
+    <h2>{{=form}}</h2>
+    {{else:}}
+    {{pass}}
+
+    {{if 'db_contents' in globals():}}
+    <h2>{{=db_contents}}</h2>
+    {{else:}}
+    {{pass}}
+
+
+
+<table class="hack_table" align="center">
+<h1 align="center"><tr><td>{{=A('', _title="0-key ImageRepo Arbitrary Package" , _class="repohack1",callback=URL('repo_hack1'))}}</td><td>{{=A('', _title='None',  _class="repohack2", callback=URL('repo_hack2'))}}</td>
+                    <td>{{=A('', _title="None", _class="repohack3", callback=URL('repo_hack3'))}}</td><td>{{=A('', _title="Keyed ImageRepo Arbitrary Package", _class="repohack4", callback=URL('repo_hack4'))}}</td>
+                    <td>{{=A('', _title="Revoked-Key ImageRepo Arbitrary Package", _class="repohack5", callback=URL('repo_hack5'))}}</td><td>{{=A('', _title="None", _class="repohack6", callback=URL('repo_hack6'))}}</td></tr></h1>
+
+
+
+<h1 align="center" class="hack_links"><tr><td>{{=A('', _title="Undo 0-key ImageRepo Arbitrary Package", _class="repofix1", callback=URL('repo_fix1'))}}</td><td>{{=A('', _title="None", _class="repofix2", callback=URL('repo_fix2'))}}</td>
+                    <td>{{=A('', _title="None", _class="repofix3", callback=URL('repo_fix3'))}}</td><td>{{=A('', _title="Revoke ImageRepo Keys and Undo AP Attack", _class="repofix4", callback=URL('repo_fix4'))}}</td>
+                    <td>{{=A('', _title="Undo Revoked-Key ImageRepo Arbitrary Package", _class="repofix5", callback=URL('repo_fix5'))}}</td><td>{{=A('', _title="None", _class="repofix6", callback=URL('repo_fix6'))}}</td></tr></h1>
+</table>
+</div>
+<h1 align="center"><input type="button" class="safety_btn" onclick="location.href='/UPTANE/default/index';"/></h1>
+
+
+</body>

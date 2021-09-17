@@ -1,0 +1,29 @@
+From 7a43c19fca83152b536bab252e9f66dc2fe242f4 Mon Sep 17 00:00:00 2001
+From: xuewei wang <xuewei.wang@nxp.com>
+Date: Tue, 8 Dec 2020 16:19:14 +0800
+Subject: [PATCH] enable flexlin2 as uart
+
+Signed-off-by: xuewei wang <xuewei.wang@nxp.com>
+---
+ board/freescale/s32-gen1/s32g274ardb.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/board/freescale/s32-gen1/s32g274ardb.c b/board/freescale/s32-gen1/s32g274ardb.c
+index 34878c9d27..f1d12968b4 100644
+--- a/board/freescale/s32-gen1/s32g274ardb.c
++++ b/board/freescale/s32-gen1/s32g274ardb.c
+@@ -13,6 +13,11 @@ void setup_iomux_uart(void)
+ 
+ 	/* Muxing for linflex0 */
+ 	setup_iomux_uart0_pc09_pc10();
++	
++	/* write MSCR27/28 IMCR225 register, Muxing for linflex2_PB_11_PB_12*/
++    writel(0x00214003, 0x4009C2AC);
++    writel(0x00094000, 0x4009C2B0);
++    writel(0x00000002, 0x44010DC4);
+ 
+ #elif (CONFIG_FSL_LINFLEX_MODULE == 1)
+ 	/* Muxing for linflex1 */
+-- 
+2.17.1
+

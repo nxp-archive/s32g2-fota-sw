@@ -1,0 +1,49 @@
+{{left_sidebar_enabled,right_sidebar_enabled=True,('message' in globals())}}
+{{extend 'layout.html'}}
+
+{{block header}}
+    {{if auth.user.username == 'oem1':}}
+            {{if response.title:}}
+            <h1>{{=response.title}}
+                    <small> - Director Repository</small></h1>
+            {{pass}}  
+    {{else:}}
+
+            {{if response.title:}}
+            <h1>{{=response.title}}
+                    <small> - Image Repository</small></h1>
+            {{pass}}
+    {{pass}}
+{{end}}
+
+
+{{block body}}
+
+
+
+
+<div class= "row"></div>
+<div class= "row"></div>
+<div class= "row">
+        <div class="col-md-9">
+                <div class="col-md-2">
+                        <a href='/UPTANE/default/factory_init' class="btn btn-primary btn-lg active" role="button">Factory Initialzation</a>
+                </div>
+                <div class="col-md-7">
+                        <h1><small>initialize the configuation for Vehicle S32G_RDB_2</small> </h1>
+                </div>
+        </div>
+        
+        <div class="col-md-9">
+                <div class="col-md-2">
+                        <a href='/UPTANE/default/reset_system' class="btn btn-primary btn-lg active" role="button">Reset system</a>
+                </div>
+                <div class="col-md-7">
+                        <h1><small>init the configuation for Vehicle S32G_RDB_2</small> </h1>
+                </div>
+        </div>
+        
+</div>
+</body>
+{{end}}
+

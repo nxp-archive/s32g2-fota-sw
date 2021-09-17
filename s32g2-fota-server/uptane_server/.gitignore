@@ -1,0 +1,13 @@
+*~
+.DS_Store
+_old_*
+v3/*
+v2/*
+temp_*
+__pycache__/*
+tuf.log
+clean_*/*
+temp_*/*
+*.egg-info
+__pycache__
+*.pyc

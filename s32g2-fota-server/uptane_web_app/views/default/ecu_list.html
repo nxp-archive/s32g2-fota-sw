@@ -1,0 +1,42 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+
+{{extend 'layout.html'}}
+
+
+{{block header}}
+    <header class="container-fluid background">
+      <div class="jumbotron text-center">
+        {{if response.title:}}
+        <h1>{{=response.title}}
+          <small>{{=response.subtitle or ''}}</small></h1>
+        {{pass}}
+      </div>
+    </header>
+{{end}}
+
+{{if 'vehicle_vin' in globals():}}
+<h1>Current Vehicle: {{=vehicle_vin}}</h1>
+{{else:}}
+{{pass}}
+
+{{if 'ecu_list' in globals():}}
+<h2>{{=ecu_list}}</h2>
+{{else:}}
+{{pass}}
+
+{{if 'ecu_id_list' in globals():}}
+<h2>{{for ecu in ecu_id_list:}}
+
+    <script>
+        console.log(" hello! " + {{=ecu}});
+        jQuery('input[type=checkbox]').each(function(){
+            console.log( 'val: ' + jQuery(this).val());
+            if(jQuery(this).val() == {{=ecu}}){
+                jQuery(this).attr('checked', 'checked');
+            }
+        });
+    </script>
+
+    {{pass}}</h2>
+{{else:}}
+{{pass}}

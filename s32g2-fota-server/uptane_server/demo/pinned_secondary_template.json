@@ -1,0 +1,16 @@
+{
+  "repositories": {
+    "imagerepo": {
+      "mirrors": ["file:///<full_client_dir>/unverified/imagerepo"]
+    },
+    "director": {
+      "mirrors": ["file:///<full_client_dir>/unverified/director"]
+    }
+  },
+  "delegations": [
+    {
+      "paths": ["*"],
+      "repositories": ["director", "imagerepo"]
+    }
+  ]
+}

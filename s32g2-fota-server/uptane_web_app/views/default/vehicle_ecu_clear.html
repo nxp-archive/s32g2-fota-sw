@@ -1,0 +1,32 @@
+{{left_sidebar_enabled,right_sidebar_enabled=True,('message' in globals())}}
+{{extend 'layout.html'}}
+
+{{block header}}
+    {{if auth.user.username == 'oem1':}}
+            {{if response.title:}}
+            <h1>{{=response.title}}
+                    <small> - Director Repository</small></h1>
+            {{pass}}  
+    {{else:}}
+
+            {{if response.title:}}
+            <h1>{{=response.title}}
+                    <small> - Image Repository</small></h1>
+            {{pass}}
+    {{pass}}
+{{end}}
+
+
+{{block body}}
+
+<h2> the Vehicle table </h2>
+
+{{if 'db_contents' in globals():}}
+<h2>{{=db_contents}}</h2>
+{{else:}}
+{{pass}}
+
+
+</body>
+{{end}}
+

@@ -1,0 +1,114 @@
+From 33edf0e798ff9fa94efe53f551a22ae49eccd955 Mon Sep 17 00:00:00 2001
+From: Ryder Gong <ryder.gong@nxp.com>
+Date: Wed, 23 Sep 2020 10:10:30 +0800
+Subject: [PATCH] support for usb_wwan
+
+---
+ drivers/net/usb/qmi_wwan.c  | 32 ++++++++++++++++++++++++++++++++
+ drivers/usb/serial/option.c | 20 ++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ mode change 100644 => 100755 drivers/net/usb/qmi_wwan.c
+ mode change 100644 => 100755 drivers/usb/serial/option.c
+
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+old mode 100644
+new mode 100755
+index b9062de426bf..84da7bc3718a
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -519,6 +519,23 @@ static const u8 default_modem_addr[ETH_ALEN] = {0x02, 0x50, 0xf3};
+ 
+ static const u8 buggy_fw_addr[ETH_ALEN] = {0x00, 0xa0, 0xc6, 0x00, 0x00, 0x00};
+ 
++#if 1 //Added by Quectel
++struct sk_buff *qmi_wwan_tx_fixup(struct usbnet *dev, struct sk_buff *skb, gfp_t flags)
++{
++	if (dev->udev->descriptor.idVendor != cpu_to_le16(0x2C7C))
++		return skb;
++	// Skip Ethernet header from message
++	if (skb_pull(skb, ETH_HLEN)) {
++		return skb;
++	} else {
++		dev_err(&dev->intf->dev, "Packet Dropped ");
++	}
++	// Filter the packet out, release it
++	dev_kfree_skb_any(skb);
++	return NULL;
++}
++#endif
++
+ /* Make up an ethernet header if the packet doesn't have one.
+  *
+  * A firmware bug common among several devices cause them to send raw
+@@ -813,6 +830,20 @@ static int qmi_wwan_bind(struct usbnet *dev, struct usb_interface *intf)
+ 	}
+ 	dev->net->netdev_ops = &qmi_wwan_netdev_ops;
+ 	dev->net->sysfs_groups[0] = &qmi_wwan_sysfs_attr_group;
++	#if 1 //Added by Quectel
++	if (dev->udev->descriptor.idVendor == cpu_to_le16(0x2C7C)) {
++		dev_info(&intf->dev, "Quectel EC25&EC21&EG91&EG95&EG06&EP06&EM06&BG96&AG35 work on RawIP mode\n");
++		dev->net->flags |= IFF_NOARP;
++		usb_control_msg(
++			interface_to_usbdev(intf),
++			usb_sndctrlpipe(interface_to_usbdev(intf), 0),
++			0x22, //USB_CDC_REQ_SET_CONTROL_LINE_STATE
++			0x21, //USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE
++			1, //active CDC DTR
++			intf->cur_altsetting->desc.bInterfaceNumber,
++			NULL, 0, 100);
++	}
++#endif
+ err:
+ 	return status;
+ }
+@@ -903,6 +934,7 @@ static const struct driver_info	qmi_wwan_info = {
+ 	.bind		= qmi_wwan_bind,
+ 	.unbind		= qmi_wwan_unbind,
+ 	.manage_power	= qmi_wwan_manage_power,
++	.tx_fixup       = qmi_wwan_tx_fixup,
+ 	.rx_fixup       = qmi_wwan_rx_fixup,
+ };
+ 
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+old mode 100644
+new mode 100755
+index 084cc2fff3ae..d8cbd7c4c755
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2051,6 +2051,9 @@ static struct usb_serial_driver option_1port_device = {
+ #ifdef CONFIG_PM
+ 	.suspend           = usb_wwan_suspend,
+ 	.resume            = usb_wwan_resume,
++	#if 1 //Added by Quectel
++	.reset_resume      = usb_wwan_resume,
++	#endif
+ #endif
+ };
+ 
+@@ -2086,6 +2089,23 @@ static int option_probe(struct usb_serial *serial,
+ 	if (device_flags & NUMEP2 && iface_desc->bNumEndpoints != 2)
+ 		return -ENODEV;
+ 
++	#if 1 //Added by Quectel
++	//Quectel UC20's interface 4 can be used as USB network device
++	if (serial->dev->descriptor.idVendor == cpu_to_le16(0x05C6) &&
++		serial->dev->descriptor.idProduct == cpu_to_le16(0x9003)
++		&& serial->interface->cur_altsetting->desc.bInterfaceNumber >= 4)
++		return -ENODEV;
++	//Quectel EC20's interface 4 can be used as USB network device
++	if (serial->dev->descriptor.idVendor == cpu_to_le16(0x05C6) &&
++		serial->dev->descriptor.idProduct == cpu_to_le16(0x9215)
++		&& serial->interface->cur_altsetting->desc.bInterfaceNumber >= 4)
++		return -ENODEV;
++	//Quectel EC25&EC21&EG91&EG95&EG06&EP06&EM06&BG96/AG35's interface 4 can be used asUSB network device
++	if (serial->dev->descriptor.idVendor == cpu_to_le16(0x2C7C)
++		&& serial->interface->cur_altsetting->desc.bInterfaceNumber >= 4)
++		return -ENODEV;
++	#endif
++
+ 	/* Store the device flags so we can use them during attach. */
+ 	usb_set_serial_data(serial, (void *)device_flags);
+ 
+-- 
+2.17.1
+

@@ -1,0 +1,77 @@
+{"usecase": 
+	{
+		"primary_ecu": 
+		{
+			"m7_core2_image": {
+				"fw_image_file_name": "NONE", 
+				"fw_release_version_number": "NONE", 
+				"fw_image_file_size": "NONE"}, 
+			"m7_core1_image": {
+				"fw_image_file_name": "S32v_test_2.0.txt", 
+				"fw_release_version_number": 3.0, 
+				"fw_image_file_size": 123.0}
+		}, 
+		"secondary_ecu": {
+			"mpc5748g_devkit": {
+				"fw_image_file_name": "fota_sec_mpc5748g_rev3.srec", 
+				"fw_release_version_number": 3.0, 
+				"fw_image_file_size": 457.0}
+		}
+	}, 
+	"factory":  {
+		"drs_url_list": {
+			"default": "http://10.193.248.216", 
+			"mirror1": "na", 
+			"mirror2": "na"}, 
+		"secondary_ecu": {
+			"BCM": {
+				"initial_fw_release_counter": 1, 
+				"verification_method": "partial", 
+				"ecu_key": "NONE", 
+				"ecu_sign_key_type": "NONE", 
+				"initial_fw_version": 1.0, 
+				"initial_fw_image_file_name": "BCM_APP_V1.0.bin", 
+				"ecu_key_type": "NONE", 
+				"ecu_sign_key": "NONE", 
+				"ecu_hw_id": "BCM", 
+				"net_addr": 50440384,
+				"net_addr_ext":0,
+				"fw_encryption": "no"}, 
+			"PDC": {
+				"initial_fw_release_counter": 1, 
+				"verification_method": "partial", 
+				"ecu_key": "NONE", 
+				"ecu_sign_key_type": "NONE", 
+				"initial_fw_version": 1.0, 
+				"initial_fw_image_file_name": "PDC_firmware.bin", 
+				"ecu_key_type": "NONE", 
+				"ecu_sign_key": "NONE", 
+				"ecu_hw_id": "PDC", 
+				"net_addr": 3355617472,
+				"net_addr_ext":0,
+				"fw_encryption": "no"}
+		}, 
+		"vin": "S32G-RDB2", 
+		"irs_url_list": {
+			"default": "http://10.193.248.216", 
+			"mirror1": "na", 
+			"mirror2": "na"}, 
+		"primary_ecu": {
+			"initial_fw_release_counter": 0, 
+			"verification_method": "full", 
+			"ecu_key": "NONE", 
+			"ecu_sign_key_type": "NONE", 
+			"initial_fw_version": 1.0, 
+			"initial_fw_image_file_name": "GATEWAY_M7_APP_V1.0.bin", 
+			"ecu_key_type": "NONE", 
+			"ecu_sign_key": "NONE", 
+			"ecu_hw_id": "GATEWAY", 
+			"net_addr": 3355486400,
+			"net_addr_ext":0,
+			"fw_encryption": "no"}
+	}, 
+	"general": {
+		"checking_interval": 20.0, 
+		"expiration_time": 311.0, 
+		"current_time": 321.0}
+}

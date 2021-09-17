@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge{{=not request.is_local and ',chrome=1' or ''}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{=response.title or request.application}}</title>
+    <meta name="application-name" content="{{=request.application}}">
+    <meta name="google-site-verification" content="">
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{=URL('static','css/web2py-bootstrap4.css')}}"/>
+    
+    <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+    <link rel="stylesheet" type="text/css" href="/rbacdemo_war_exploded/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{=URL('static','css/bootstrap410.min.css')}}" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+     <link rel="stylesheet" href="{{=URL('static','css/style.css')}}">
+
+    </head>
+ 
+
+
+
+ <body>
+  
+    <script type="text/javascript" src="/rbacdemo_war_exploded/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="/rbacdemo_war_exploded/js/bootstrap.min.js"></script>
+
+    <script src="{{=URL('static','js/modernizr-2.8.3.min.js')}}"></script>
+
+    {{include 'web2py_ajax.html'}} 
+    {{block head}}{{end}}
+    {{
+    # using sidebars need to know what sidebar you want to use
+    mc0 = 'col-md-12'
+    mc1 = 'col-md-9'
+    mc2 = 'col-md-6'
+    left_sidebar_enabled = globals().get('left_sidebar_enabled', False)
+    right_sidebar_enabled = globals().get('right_sidebar_enabled', False)
+    middle_column = {0: mc0, 1: mc1, 2: mc2}[
+    (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
+    }}
+  </head>
+
+  <body style="padding-top: 0px;">
+    <nav class="navbar navbar-default" role="navigation" style="height: 70px;">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {{='auth' in globals() and auth.navbar('Welcome',mode='dropdown') or ''}}
+          </ul>
+
+          <ul class="nav navbar-nav">
+            <img src="{{=URL('static','images/NXP_Color_Logo.jpg')}}" style= "height:50px;width:150px" >
+          </ul>
+          <!--
+          {{if response.menu:}}
+          {{=MENU(response.menu, _class='nav navbar-nav',li_class='dropdown',ul_class='dropdown-menu')}}
+          {{pass}} -->
+        </div>
+      </div>
+    </nav>
+
+
+
+    <!-- Masthead =====================================   
+    {{block header}}-->  
+    {{end}}
+    <!-- Main ========================================= -->
+    <!-- Begin page content -->
+    <div class="container-fluid main-container">
+      {{if left_sidebar_enabled:}}
+        <div class="col-md-3 left-sidebar">
+            {{block left_sidebar}}
+          
+              <!-- Sidebar -->
+              <nav id="sidebar">
+                  <div class="sidebar-header">
+                      <h3>S32G FOTA Server</h3>
+                  </div>
+                  <ul class="list-unstyled components">
+                      <p>Directory seriver</p>
+                      <li>
+                        <a href="/UPTANE/default/index">Server Settings</a>
+                      </li>
+                      <li>
+                        <a href="/UPTANE/default/vehicles_INFO">Vehicles List</a>
+                      </li>
+                      <li>
+                        <a href="/UPTANE/default/ecu_batch_upgrade">Publish Update</a>
+                      </li>
+                      <p>Image Server</p>
+                      <li>
+                        <a href="/UPTANE/default/Image_update">Upload Image</a>
+                      </li>           
+            
+                  </ul>
+              </nav>
+          
+         
+            {{end}}
+        </div>
+      {{pass}}
+
+      <div class="{{=middle_column}}">
+        {{block center}}
+        {{include}}
+        {{end}}
+      </div>
+
+
+    </div>
+
+    {{block footer}} 
+
+    {{end}}
+
+    <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+    <script src="{{=URL('static','js/web2py-bootstrap4.js')}}"></script>
+    {{block page_js}}{{end page_js}}
+    {{if response.google_analytics_id:}}
+    <!-- Analytics ==================================== -->
+    <script src="{{=URL('static','js/analytics.min.js')}}"></script>
+    <script type="text/javascript">
+      analytics.initialize({
+      'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'}
+      });
+    </script>
+    {{pass}}
+    <!-- Share ============================y============ -->
+    <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
+  </body>
+</html>

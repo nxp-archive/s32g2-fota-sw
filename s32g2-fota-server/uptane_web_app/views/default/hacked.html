@@ -1,0 +1,75 @@
+{{extend 'layout.html'}}
+
+{{block header}}
+    <header class="container-fluid ">
+      <div class="jumbotron text-center">
+        <h1>HACKED Director Repository</h1>
+        {{pass}}
+      </div>
+    </header>
+{{end}}
+
+<body class="hack_body">
+
+<div style="background:WHITE">
+{{if 'db_contents' in globals():}}
+<h2>{{=db_contents}}</h2>
+{{else:}}
+{{pass}}
+
+{{if 'changed_ecu_list' in globals():}}
+<h2>{{=changed_ecu_list}}</h2>
+{{else:}}
+{{pass}}
+
+{{if 'edited_vehicle' in globals():}}
+    <script>
+        console.log(" hello2! " + {{=edited_vehicle}});
+        jQuery('tr[id={{=edited_vehicle}}]').each(function(){
+            var button = $("<td><a id='update_button' href='/UPTANE/default/index'>Push Change</a></td>");
+            button.click(function(){
+                alert($("#update_button").attr("href"));
+                jQuery('input[value={{=edited_vehicle}}]').attr('checked', 'checked');
+            });
+            button.appendTo(jQuery(this));
+        });
+    </script>
+{{else:}}
+{{pass}}
+
+{{if 'available_updates' in globals():}}
+    <script>
+        console.log(" hello3! " + {{=available_updates}});
+        for (i = 0; i < {{=available_updates}}.length; i++){
+            console.log( "yepp: " + i);
+            console.log({{=available_updates}}[i]);
+            var id_num = {{=available_updates}}[i];
+            jQuery('tr[id=' + id_num + ']').each(function(){
+                var button = $("<td><a id='available_update_button'>AVAILABLE UPDATE</a></td>");
+                //button.click(function(){
+                //    alert($("#available_update_button").attr("href"));
+                //    jQuery('input[value=id_num]').attr('checked', 'checked');
+                //});
+                button.appendTo(jQuery(this));
+            });
+        }
+    </script>
+{{else:}}
+{{pass}}
+
+<table class="hack_table" align="center">
+<h1 align="center"><tr><td>{{=A('', _title="0-key Director Arbitrary Package" , _class="tdhack1",callback=URL('hack1'))}}</td><td>{{=A('', _title='Prepare 0-key Director Rollback',  _class="tdhack2", callback=URL('hack2'))}}</td>
+                    <td>{{=A('', _title="0-key Director Rollback", _class="tdhack3", callback=URL('hack3'))}}</td><td>{{=A('', _title="Keyed Director Arbitrary Package", _class="tdhack4", callback=URL('hack4'))}}</td>
+                    <td>{{=A('', _title="Revoked-Key Director Arbitrary Package", _class="tdhack5", callback=URL('hack5'))}}</td><td>{{=A('', _title="None", _class="tdhack6", callback=URL('hack6'))}}</td></tr></h1>
+
+
+
+<h1 align="center" class="hack_links"><tr><td>{{=A('', _title="Undo 0-key Director Arbitrary Package", _class="fix1", callback=URL('fix1'))}}</td><td>{{=A('', _title="None", _class="fix2", callback=URL('fix2'))}}</td>
+                    <td>{{=A('', _title="Undo 0-key Director Rollback", _class="fix3", callback=URL('fix3'))}}</td><td>{{=A('', _title="Revoke Director Keys and Undo AP Attack", _class="fix4", callback=URL('fix4'))}}</td>
+                    <td>{{=A('', _title="Undo Revoked-Key Director Arbitrary Package", _class="fix5", callback=URL('fix5'))}}</td><td>{{=A('', _title="None", _class="fix6", callback=URL('fix6'))}}</td></tr></h1>
+</table>
+</div>
+<h1 align="center"><input type="button" class="safety_btn" onclick="location.href='/UPTANE/default/index';"/></h1>
+
+
+</body>

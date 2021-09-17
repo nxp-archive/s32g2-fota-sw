@@ -1,0 +1,16 @@
+{
+  "repositories": {
+    "imagerepo": {
+      "mirrors": ["http://localhost:30301"]
+    },
+    "director": {
+      "mirrors": ["http://localhost:30401"]
+    }
+  },
+  "delegations": [
+    {
+      "paths": ["*"],
+      "repositories": ["director", "imagerepo"]
+    }
+  ]
+}

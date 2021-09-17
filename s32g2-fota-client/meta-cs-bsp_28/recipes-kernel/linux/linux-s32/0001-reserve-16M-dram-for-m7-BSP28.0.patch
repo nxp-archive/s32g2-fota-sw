@@ -1,0 +1,28 @@
+From 82b9055d50950cb3bec20fe5065226e64dbbb917 Mon Sep 17 00:00:00 2001
+From: Arthur Shi <arthur.shi@nxp.com>
+Date: Thu, 27 May 2021 14:33:19 +0800
+Subject: [PATCH] reserve-16M-dram-for-m7-BSP28.0
+
+---
+ arch/arm64/boot/dts/freescale/fsl-s32g274a.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/freescale/fsl-s32g274a.dtsi b/arch/arm64/boot/dts/freescale/fsl-s32g274a.dtsi
+index 52ec95be0778..f856b7488128 100644
+--- a/arch/arm64/boot/dts/freescale/fsl-s32g274a.dtsi
++++ b/arch/arm64/boot/dts/freescale/fsl-s32g274a.dtsi
+@@ -49,6 +49,11 @@
+ 			no-map;
+ 			status = "disabled";
+ 		};
++		m7_reserved: m7_ramdisk@0xff000000 {
++			reg = <0 0xff000000 0 0x1000000>;
++			no-map;
++			status = "okay";
++		};
+ 	};
+ 
+ 	clks: clks@40038000 {
+-- 
+2.17.1
+
